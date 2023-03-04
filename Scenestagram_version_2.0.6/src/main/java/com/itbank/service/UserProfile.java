@@ -22,8 +22,12 @@ public class UserProfile {
 	}
 	
     public void saveProfile(MultipartFile user_img_file) {
-        String realPath = servletContext.getRealPath(userProfile);
-        File dest = new File(realPath, user_img_file.getOriginalFilename());
+        String realPath = servletContext.getRealPath("/resources/img");
+        File imgDir = new File(realPath);
+        if (!imgDir.exists()) {
+            imgDir.mkdirs();
+        }
+        File dest = new File(imgDir, user_img_file.getOriginalFilename());
         try {
             user_img_file.transferTo(dest);
         } catch (IllegalStateException e) {

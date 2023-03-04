@@ -236,12 +236,13 @@ public class UsersController {
 	@PostMapping("/profileImgModify")
 	@ResponseBody
 	public int profileImgModify(MultipartFile profileimageFile , HttpSession session) {
-		System.out.println("사진수정 실행");
 		UsersDTO login = (UsersDTO)session.getAttribute("login");
 		int idx = login.getIdx();
 		String fileName = profileimageFile.getOriginalFilename();
 		int result = usersService.profileImgModify(fileName, idx);
 		userProfile.saveProfile(profileimageFile);
+		login.setUser_img(fileName);
+		session.setAttribute("login", login);
 		
 		return result;				
 	}
