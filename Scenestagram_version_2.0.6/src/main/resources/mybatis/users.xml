@@ -245,7 +245,8 @@
 		order by count desc, idx desc
 	</select>
 
-	<select id="updateuser_img" parameterType="hashmap">
+	<!-- 유저 사진 업데이트 -->
+	<update id="updateuser_img" parameterType="hashmap">
 		update users set user_img=#{userimg} where idx=#{idx}
-	</select>
+	</update>
 </mapper>

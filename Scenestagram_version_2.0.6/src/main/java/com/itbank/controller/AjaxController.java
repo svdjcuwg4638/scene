@@ -297,22 +297,6 @@ public class AjaxController {
        
        return row;
     }
-    // 유저 이미지 업로드
-    @PostMapping("/upload-image")
-    public String handleFileUpload(@RequestParam("imageFile") MultipartFile file , HttpSession session) {
-        UsersDTO loginuser = (UsersDTO)session.getAttribute("login");
-        int userIdx = loginuser.getIdx();
-        String webPath = "resources/img";
-        String folderPath = session.getServletContext().getRealPath(webPath);
-        System.out.println(userService.profileImgModify(file.getOriginalFilename(), userIdx) == 0 ? "이미지 수정실패" : "이미지 수정성공");
-        File dest = new File(folderPath);
-        try {
-            file.transferTo(dest);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return "result";
-    }
 }
 
 

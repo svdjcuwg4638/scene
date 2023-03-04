@@ -126,6 +126,7 @@ a {
 
 .info_top_img>img {
 	width: 40px;
+	height:40px;
 	border-radius: 30px;
 }
 
@@ -411,7 +412,7 @@ function allCheck(){
 										onclick="return allCheck()">
 								</div>
 								<div>
-									<a href="">일시적으로 계정 비활성화</a>
+									<a href="" class="withdraw">계정 비활성화</a>
 								</div>
 							</div>
 
@@ -439,7 +440,12 @@ function allCheck(){
 			<div>
 				<div class="modal_foot">
 					<div class="info_img_modify">
-						<button id="upload-button">사진 업로드</button>
+						<form action="" class="profile_img_form">
+						  <div class="post_add_img_file_input">
+						    <label for="profile_add_file">프로필 사진 바꾸기</label>
+						    <input id="profile_add_file" type="file" name="profileimageFile" onchange="postAddFormHandler(event);">
+						  </div>
+						</form>
 					</div>
 					<div class="modal_foot_btn">
 						<button>취소</button>
@@ -449,6 +455,42 @@ function allCheck(){
 		</div>
 	</div>
 
+
+	<!--  회원 탈퇴   -->
+	<script type="text/javascript">
+		const withdraw = document.querySelector('.withdraw')	
+		
+		function withdrawHandler(event) {
+			event.preventDefault()
+			if (confirm("회원 탈퇴시 돌이킬수 없습니다. 정말 탈퇴하시겠습니까??")) {
+				alert('회원 탈퇴하셨습니다.')
+			    location.href="${cpath}/users/withdraw"
+			} else {
+			    return false;
+			}
+		}
+		
+		
+		withdraw.onclick = withdrawHandler
+	</script>
+
+	<!--  프로필 사진 수정 스크립트 -->
+	<script type="text/javascript">
+	  function postAddFormHandler(event) {
+	    event.preventDefault();
+	    let profile_img_form_data = document.querySelector('.profile_img_form');
+	    let formData = new FormData(profile_img_form_data);
+	    fetch('${cpath}/users/profileImgModify', {
+	      method: "POST",
+	      body: formData
+	    }).then(resp => resp.text())
+	      .then(text => {
+	        console.log(text); // 업로드 된 파일 경로 확인
+	        alert('사진이 변경되었습니다.');
+	        location.reload(); // 페이지 새로고침
+	      });
+	  }
+	</script>
 
 	<!--  모달  end -->
 
@@ -484,32 +526,7 @@ function allCheck(){
 
 	<!-- 이미지 변경 스크립트 -->
 	<script>
-		$(function() {
-		    $('#upload-button').click(function() {
-		        // input 태그를 생성하여 파일 선택 대화상자를 엽니다.
-		        var input = $('<input type="file" accept="image/*">');
-		        input.on('change', function() {
-		            var formData = new FormData();
-		            formData.append('imageFile', input.prop('files')[0]);
-		            
-		            $.ajax({
-		                url: '/upload-image',
-		                method: 'POST',
-		                data: formData,
-		                processData: false,
-		                contentType: false,
-		                success: function(result) {
-		                    alert('사진이 변경되었습니다.')
-		                    location.href('${cpath}/users/infoModify')
-		                },
-		                error: function(xhr, status, error) {
-		                    alert('페이지 오류입니다.')
-		                }
-		            });
-		        });
-		        input.click();
-		    });
-		});
+
 	</script>
 	<!-- 닉네임 중복체크 스크립트 -->
 	<script>

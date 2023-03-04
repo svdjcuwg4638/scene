@@ -489,22 +489,6 @@ select[name="gender"] {
 					</h3>
 				</div>
 
-				<!-- Oauth 소셜로그인 -->
-				<div class="login__facebook">
-					<button onclick="javascript:location.href=''">
-						<i class="fab fa-facebook-square"></i> <span>Facebook으로 로그인</span>
-					</button>
-				</div>
-				<!-- Oauth 소셜로그인end -->
-
-				<!-- 또는 -->
-				<div class="login__horizon">
-					<div class="br"></div>
-					<div class="or">또는</div>
-					<div class="br"></div>
-				</div>
-				<!-- 또는end -->
-
 				<!--로그인 인풋-->
 				<form id="join_form" class="login__input"
 					action="${cpath }/users/join" method="POST">

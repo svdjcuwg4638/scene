@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+ <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="../header.jsp"%>
 <style type="text/css">
@@ -270,7 +270,7 @@ function allCheck(){
 										onclick="return allCheck()">
 								</div>
 								<div>
-									<a href="">비밀번호를 잊으셨나요?</a>
+									<a href="${cpath }/users/findPw">비밀번호를 잊으셨나요?</a>
 								</div>
 							</div>
 						</div>

@@ -84,6 +84,7 @@ button {
 	align-items: center;
 	margin-top: 24px;
 	padding: 0 40px;
+	margin-bottom: 30px;
 }
 
 /*로그인 인풋태그*/
@@ -318,22 +319,7 @@ select[name="gender"] {
 					<div>
 						<a href="${cpath }/users/findPw">비밀번호를 잊으셨나요?</a>
 					</div>
-					<!-- 또는 -->
-					<div class="login__horizon">
-						<div class="br"></div>
-						<div class="or">또는</div>
-						<div class="br"></div>
-					</div>
-					<!-- 또는end -->
 
-					<!-- Oauth 소셜로그인 -->
-					<div class="login__facebook">
-						<button onclick="javascript:location.href=''">
-							<i class="fab fa-facebook-square"></i> <span>Facebook으로
-								로그인</span>
-						</button>
-					</div>
-					<!-- Oauth 소셜로그인end -->
 				</div>
 
 				<!--계정이 없으신가요?-->
@@ -346,6 +332,13 @@ select[name="gender"] {
 		</main>
 
 	</div>
+
+	<!-- 탈퇴한 계정으로 로그인할시 오류문구 스크립트 -->
+	<c:if test="${not empty withdrowuser}">
+		<script type="text/javascript">
+			alert('${withdrowuser}');
+		</script>
+	</c:if>
 
 	<!-- 아이디와 비번입력시에만 로그인버튼 색갈표시 -->
 	<script>

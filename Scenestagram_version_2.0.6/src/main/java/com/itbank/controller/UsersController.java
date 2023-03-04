@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -42,6 +43,11 @@ public class UsersController {
 		session.getAttribute("login");
 		UsersDTO login = usersService.login(dto);
 		boolean pwdMatch = false;
+		if(login.getStatus().equals("deactivate")) {
+			rttr.addFlashAttribute("withdrowuser","회원탈퇴한 계정입니다.");
+			return "redirect:/users/login";
+		}
+		
 		if(login != null) {
 			pwdMatch = pwdEncoder.matches(dto.getPw(), login.getPw());
 		}
@@ -107,7 +113,7 @@ public class UsersController {
 		int row = usersService.withdrawal(dto.getIdx());
 		System.out.println(row == 0 ? "삭제실패" : "삭제성공");
 		session.setAttribute("login", null);
-		return "redirect/users/login";
+		return "redirect:/";
 	}
 	//회원탈퇴 end
 	
@@ -226,4 +232,17 @@ public class UsersController {
 	@GetMapping("/recommendAll")
 	public void recommendAll() {}
 	
+	// 사진 수정
+	@PostMapping("/profileImgModify")
+	@ResponseBody
+	public int profileImgModify(MultipartFile profileimageFile , HttpSession session) {
+		System.out.println("사진수정 실행");
+		UsersDTO login = (UsersDTO)session.getAttribute("login");
+		int idx = login.getIdx();
+		String fileName = profileimageFile.getOriginalFilename();
+		int result = usersService.profileImgModify(fileName, idx);
+		userProfile.saveProfile(profileimageFile);
+		
+		return result;				
+	}
 }
