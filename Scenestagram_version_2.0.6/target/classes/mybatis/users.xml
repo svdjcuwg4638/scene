@@ -105,14 +105,11 @@
 		SELECT h.idx,
 		h.hashtag,
 		COUNT(ph.idx) AS count_hashtag
-		FROM
-		hashtag h
+		FROM hashtag h
 		LEFT JOIN post_hashtag ph ON h.idx = ph.hashtag_idx
-		LEFT JOIN
-		post p ON ph.idx = p.idx
+		LEFT JOIN post p ON ph.idx = p.idx
 		WHERE h.hashtag LIKE '%${searchValue}%'
-		GROUP
-		BY h.idx, h.hashtag
+		GROUP BY h.idx, h.hashtag
 	</select>
 
 	<!-- 이메일 전화번호로 유저확인 -->
@@ -139,14 +136,12 @@
 		select
 		distinct * from
 		(
-		select U.*, (select count(*) from follow where
-		follower_idx=U.idx) as count
+		select U.*, (select count(*) from follow where follower_idx=U.idx) as count
 		from users U
 		where
 		U.idx != #{idx}
 		and
-		U.idx
-		not in (
+		U.idx not in (
 		select follower_idx from follow where following_idx=#{idx}
 		)
 		and
@@ -154,53 +149,43 @@
 		select distinct A.idx from users A
 		join
 		(
-		select
-		follower_idx from follow
+		select follower_idx from follow
 		where
 		following_idx in
 		(
-		select follower_idx from
-		follow
+		select follower_idx from follow
 		where following_idx=#{idx}
 		)
 		and follower_idx != #{idx}
-		and
-		follower_idx not in
+		and follower_idx not in
 		(
 		select follower_idx from follow
-		where
-		following_idx=#{idx}
+		where following_idx=#{idx}
 		)
 		) B
 		on A.idx = B.follower_idx
 		)
 		union
-		select distinct
-		A.*, (select 999999999 from dual) as count from users A
+		select distinct A.*, (select 999999999 from dual) as count from users A
 		join
-		(
-		select
-		follower_idx from follow
-		where
-		following_idx in
-		(
-		select follower_idx from
-		follow
-		where following_idx=#{idx}
-		)
-		and follower_idx != #{idx}
-		and
-		follower_idx not in
 		(
 		select follower_idx from follow
 		where
-		following_idx=#{idx}
+		following_idx in
+		(
+		select follower_idx from follow
+		where following_idx=#{idx}
+		)
+		and follower_idx != #{idx}
+		and follower_idx not in
+		(
+		select follower_idx from follow
+		where following_idx=#{idx}
 		)
 		) B
 		on A.idx = B.follower_idx
 		)
-		order by count desc,
-		idx desc
+		order by count desc, idx desc
 	</select>
 
 	<!-- 유명인 추천 (팔로잉 0인 사람이 로그인 했을 때 팔로워가 가장 많은 사람을 추천해줌) -->
@@ -208,73 +193,59 @@
 		resultType="users">
 		select distinct * from
 		(
-		select U.*, (select count(*) from
-		follow where follower_idx=U.idx) as count
+		select U.*, (select count(*) from follow where follower_idx=U.idx) as count
 		from users U
 		where
-		U.idx !=
-		#{idx}
+		U.idx != #{idx}
 		and
 		U.idx not in (
-		select follower_idx from follow where
-		following_idx=#{idx}
+		select follower_idx from follow where following_idx=#{idx}
 		)
 		and
 		U.idx not in (
-		select distinct A.idx from users
-		A
+		select distinct A.idx from users A
 		join
 		(
 		select follower_idx from follow
 		where
 		following_idx in
 		(
-		select
-		follower_idx from follow
+		select follower_idx from follow
 		where following_idx=#{idx}
 		)
-		and follower_idx !=
-		#{idx}
+		and follower_idx != #{idx}
 		and follower_idx not in
 		(
 		select follower_idx from follow
-		where
-		following_idx=#{idx}
+		where following_idx=#{idx}
 		)
 		) B
 		on A.idx = B.follower_idx
 		)
 		union
-		select distinct
-		A.*, (select 999999999 from dual) as count from users A
+		select distinct A.*, (select 999999999 from dual) as count from users A
 		join
-		(
-		select
-		follower_idx from follow
-		where
-		following_idx in
-		(
-		select follower_idx from
-		follow
-		where following_idx=#{idx}
-		)
-		and follower_idx != #{idx}
-		and
-		follower_idx not in
 		(
 		select follower_idx from follow
 		where
-		following_idx=#{idx}
+		following_idx in
+		(
+		select follower_idx from follow
+		where following_idx=#{idx}
+		)
+		and follower_idx != #{idx}
+		and follower_idx not in
+		(
+		select follower_idx from follow
+		where following_idx=#{idx}
 		)
 		) B
 		on A.idx = B.follower_idx
 		)
-		order by count desc,
-		idx desc
+		order by count desc, idx desc
 	</select>
 
 	<select id="updateuser_img" parameterType="hashmap">
-		update users set
-		user_img=#{userimg} where idx=#{idx}
+		update users set user_img=#{userimg} where idx=#{idx}
 	</select>
 </mapper>

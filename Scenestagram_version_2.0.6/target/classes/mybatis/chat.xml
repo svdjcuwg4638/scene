@@ -15,18 +15,14 @@
 		idx in (select participant1_idx from chat_room where
 		participant1_idx=#{idx} or participant2_idx=#{idx})
 		or
-		idx in (select
-		participant2_idx from chat_room where
-		participant1_idx=#{idx} or
-		participant2_idx=#{idx})
+		idx in (select participant2_idx from chat_room where
+		participant1_idx=#{idx} or participant2_idx=#{idx})
 		)
 		and
 		idx != #{idx}
 		) U
-		on C.participant1_idx =
-		U.idx or C.participant2_idx = U.idx
-		where C.participant1_idx=#{idx} or
-		C.participant2_idx=#{idx}
+		on C.participant1_idx = U.idx or C.participant2_idx = U.idx
+		where C.participant1_idx=#{idx} or C.participant2_idx=#{idx}
 	</select>
 
 	<select id="selectChatMessageList" parameterType="int"
@@ -41,8 +37,7 @@
 	<insert id="insertMessage" parameterType="chatMessage">
 		insert into
 		chat(room_idx, writer_idx, content) values(
-		#{room_idx}, #{writer_idx},
-		#{content}
+		#{room_idx}, #{writer_idx}, #{content}
 		)
 	</insert>
 </mapper>

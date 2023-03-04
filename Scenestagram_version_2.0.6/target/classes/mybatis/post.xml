@@ -17,16 +17,14 @@
 		select
 		* from post
 		where idx=#{post_idx} and status='activate'
-		order by idx
-		desc
+		order by idx desc
 	</select>
 
 	<select id="selectImageName" parameterType="int"
 		resultType="string">
 		select file_name from image
 		where post_idx=#{post_idx}
-		order
-		by idx desc
+		order by idx desc
 	</select>
 
 	<update id="updateViews" parameterType="int">
@@ -85,8 +83,7 @@
 	<insert id="insertLike" parameterType="hashmap">
 		insert into
 		post_users_like values(
-		post_users_like_seq.nextval, #{post_idx},
-		#{users_idx}
+		post_users_like_seq.nextval, #{post_idx}, #{users_idx}
 		)
 	</insert>
 
@@ -145,11 +142,9 @@
 	<select id="getPostList" parameterType="hashmap"
 		resultType="hashmap">
 		select distinct A.*,
-		(select count(*) from comments where
-		post_idx=A.post_idx and
+		(select count(*) from comments where post_idx=A.post_idx and
 		status='activate') as postCommentCount,
-		(select
-		count(*) from post_users_like where post_idx=A.post_idx) as
+		(select count(*) from post_users_like where post_idx=A.post_idx) as
 		postLikeCount from image A
 		where post_idx in
 		(
@@ -158,8 +153,7 @@
 		(
 		select A.post_idx from post_hashtag A
 		join hashtag B
-		on
-		A.hashtag_idx = B.idx
+		on A.hashtag_idx = B.idx
 		where B.hashtag=#{hashtag}
 		) B
 		on A.idx=B.post_idx
@@ -172,8 +166,7 @@
 		(
 		select A.post_idx from comments_hashtag A
 		join hashtag B
-		on
-		A.hashtag_idx = B.idx
+		on A.hashtag_idx = B.idx
 		where B.hashtag=#{hashtag}
 		) B
 		on A.idx=B.post_idx
@@ -188,10 +181,8 @@
 	<select id="getScroll" parameterType="hashmap"
 		resultType="hashmap">
 		select A.*,
-		(select count(*) from post_users_like where
-		post_idx = A.idx) as like_count,
-		(select count(*) from comments where
-		post_idx = A.idx) as
+		(select count(*) from post_users_like where post_idx = A.idx) as like_count,
+		(select count(*) from comments where post_idx = A.idx) as
 		comments_count
 		from
 		(
@@ -205,8 +196,7 @@
 		join image I
 		on I.post_idx = P.idx
 
-		where U.idx in(select follower_idx
-		from follow where following_idx=#{idx})
+		where U.idx in(select follower_idx from follow where following_idx=#{idx})
 		and P.status='activate'
 		) A
 		order by A.idx desc
@@ -217,18 +207,15 @@
 	<select id="bringPost" parameterType="hashmap"
 		resultType="hashmap">
 		select A.*,
-		(select count(*) from comments where
-		post_idx=A.post_idx and
+		(select count(*) from comments where post_idx=A.post_idx and
 		status='activate') as postCommentCount,
-		(select
-		count(*) from post_users_like where post_idx=A.post_idx) as
+		(select count(*) from post_users_like where post_idx=A.post_idx) as
 		postLikeCount from image A
 		join
 		(
 		select A.idx from post A
 		join users B
-		on
-		A.users_idx = B.idx
+		on A.users_idx = B.idx
 		where B.idx = #{idx} and A.status = 'activate'
 		) B
 		on A.post_idx = B.idx
@@ -240,35 +227,27 @@
 	<select id="selectDetailData" parameterType="int"
 		resultType="hashmap">
 		select P.*, U.nick_name, U.user_img, I.file_name,
-		(select
-		count(*) from post_users_like where post_idx=P.idx) as like_count
-		from
-		post P
+		(select count(*) from post_users_like where post_idx=P.idx) as like_count
+		from post P
 		join image I
 		on p.idx = I.post_idx
 		join users U
-		on p.users_idx =
-		U.idx
+		on p.users_idx = U.idx
 		where P.idx=#{post_idx} and P.status='activate'
-		order by P.idx
-		desc
+		order by P.idx desc
 	</select>
 
 	<select id="selectData" parameterType="hashmap"
 		resultType="hashmap">
 		select P.*, U.nick_name, U.user_img, I.file_name,
-		(select
-		count(*) from post_users_like where post_idx=P.idx) as like_count
-		from
-		post P
+		(select count(*) from post_users_like where post_idx=P.idx) as like_count
+		from post P
 		join image I
 		on p.idx = I.post_idx
 		join users U
-		on p.users_idx =
-		U.idx
+		on p.users_idx = U.idx
 		where P.users_idx=#{users_idx} and P.status='activate'
-		order by
-		P.idx desc
+		order by P.idx desc
 		offset #{offset} rows
 		fetch first 1 rows only
 	</select>
@@ -276,29 +255,22 @@
 	<!-- 탐색페이지에서 불러올 추천 게시글 -->
 	<select id="explore" resultType="hashmap">
 		select A.*,
-		(select count(*) from
-		comments where post_idx=A.post_idx and
-		status='activate') as
-		postCommentCount,
-		(select count(*) from post_users_like where
-		post_idx=A.post_idx) as
+		(select count(*) from comments where post_idx=A.post_idx and
+		status='activate') as postCommentCount,
+		(select count(*) from post_users_like where post_idx=A.post_idx) as
 		postLikeCount from image A
 		join
 		(
-		select A.idx,
-		(select count(*) from post_users_like where post_idx=A.idx) as
-		count
-		from post A
+		select A.idx, (select count(*) from post_users_like where post_idx=A.idx) as
+		count from post A
 		where A.status = 'activate'
 		group by A.idx
 
 		) B
-		on
-		A.post_idx=B.idx
+		on A.post_idx=B.idx
 		order by B.count desc, A.post_idx desc
 		offset
-		#{offset}
-		rows
+		#{offset} rows
 		fetch first 12 rows only
 	</select>
 
@@ -308,22 +280,18 @@
 		select H.post_idx from post_hashtag H
 		join post P
 		on H.post_idx=P.idx
-		where H.hashtag_idx=(select idx from
-		hashtag where hashtag=#{hashtag}) and
+		where H.hashtag_idx=(select idx from hashtag where hashtag=#{hashtag}) and
 		P.status='activate'
-		group by
-		H.post_idx
+		group by H.post_idx
 
 		union
 
 		select distinct H.post_idx from comments_hashtag H
-		join
-		post P
+		join post P
 		on H.post_idx=P.idx
 		join comments C
 		on P.idx=C.post_idx
-		where
-		H.hashtag_idx=(select idx from hashtag where hashtag=#{hashtag}) and
+		where H.hashtag_idx=(select idx from hashtag where hashtag=#{hashtag}) and
 		P.status='activate' and C.status='activate'
 		group by H.post_idx
 		)
@@ -331,26 +299,21 @@
 
 	<!-- 뷰디테일의 포스트 개수를 반환하는 countPost -->
 	<select id="countPost" parameterType="int" resultType="int">
-		select
-		count(*) from post P
+		select count(*) from post P
 		join users U
 		on P.users_idx = U.idx
-		where U.idx =
-		#{idx} and P.status='activate'
+		where U.idx = #{idx} and P.status='activate'
 	</select>
 
 	<select id="selectPostDetailOne" parameterType="int"
 		resultType="hashmap">
 		select P.*, U.nick_name, U.user_img, I.file_name,
-		(select
-		count(*) from post_users_like where post_idx=P.idx) as like_count
-		from
-		post P
+		(select count(*) from post_users_like where post_idx=P.idx) as like_count
+		from post P
 		join image I
 		on p.idx = I.post_idx
 		join users U
-		on p.users_idx =
-		U.idx
+		on p.users_idx = U.idx
 		where P.status='activate'
 		order by like_count desc, P.idx desc
 		offset #{offset} rows
@@ -360,26 +323,21 @@
 	<select id="selectPostDetailHashtag" parameterType="hashmap"
 		resultType="hashmap">
 		select P.*, U.nick_name, U.user_img, I.file_name,
-		(select
-		count(*) from post_users_like where post_idx=P.idx) as like_count
-		from
-		post P
+		(select count(*) from post_users_like where post_idx=P.idx) as like_count
+		from post P
 		join image I
 		on p.idx = I.post_idx
 		join users U
-		on p.users_idx =
-		U.idx
+		on p.users_idx = U.idx
 		where P.idx in
 		(
 		select A.idx from post A
 		join
 		(
-		select A.post_idx
-		from post_hashtag A
+		select A.post_idx from post_hashtag A
 		join hashtag B
 		on A.hashtag_idx = B.idx
-		where
-		B.hashtag=#{hashtag}
+		where B.hashtag=#{hashtag}
 		) B
 		on A.idx=B.post_idx
 		where A.status = 'activate'
@@ -389,12 +347,10 @@
 		select A.idx from post A
 		join
 		(
-		select A.post_idx from
-		comments_hashtag A
+		select A.post_idx from comments_hashtag A
 		join hashtag B
 		on A.hashtag_idx = B.idx
-		where
-		B.hashtag=#{hashtag}
+		where B.hashtag=#{hashtag}
 		) B
 		on A.idx=B.post_idx
 		where A.status = 'activate'

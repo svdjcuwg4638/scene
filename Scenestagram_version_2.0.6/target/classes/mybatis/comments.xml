@@ -7,27 +7,19 @@
 	<select id="selectComments" parameterType="hashmap"
 		resultType="hashmap">
 		select C.*, U.nick_name, U.user_img,
-		(select count(*) from
-		comments_users_like where post_idx=C.post_idx and
-		comments_idx=C.idx)
-		as comment_like_count,
-		(select count(*) from comments_users_like where
-		post_idx=C.post_idx and
-		comments_idx=C.idx and users_idx=#{users_idx})
-		as comment_like_status,
-		(select count(*) from comments where
-		parent_idx=C.idx and
+		(select count(*) from comments_users_like where post_idx=C.post_idx and
+		comments_idx=C.idx) as comment_like_count,
+		(select count(*) from comments_users_like where post_idx=C.post_idx and
+		comments_idx=C.idx and users_idx=#{users_idx}) as comment_like_status,
+		(select count(*) from comments where parent_idx=C.idx and
 		status='activate') as comment_count from
 
-		(select *
-		from comments
+		(select * from comments
 		where post_idx=#{post_idx} and status='activate') C
-		join
-		users U
+		join users U
 		on C.users_idx=U.idx
 		start with C.parent_idx = 0
-		connect by prior
-		C.idx = C.parent_idx
+		connect by prior C.idx = C.parent_idx
 		order
 		siblings by C.idx desc
 	</select>
@@ -43,8 +35,7 @@
 	<select id="selectCommentsIDX" parameterType="hashmap"
 		resultType="integer">
 		select comments_idx from comments_users_like
-		where
-		post_idx=#{post_idx} and users_idx=#{users_idx}
+		where post_idx=#{post_idx} and users_idx=#{users_idx}
 	</select>
 
 	<select id="selectLikeStatus" parameterType="hashmap"
