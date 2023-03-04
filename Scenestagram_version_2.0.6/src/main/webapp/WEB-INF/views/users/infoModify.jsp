@@ -156,21 +156,15 @@ option {
 }
 
 .modal_wrap {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	width: 400px;
-	height: 300px;
-	background: #fff;
-	z-index: 1000;
-	border-radius: 20px;
-}
-
-.modal_wrap_sub {
-	display: flex;
-	flex-flow: column;
-	justify-content: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 223px;
+    z-index: 1000;
+    border-radius: 20px;
+   	background: rgb(38,38,38);
 }
 
 .modal_foot div {
@@ -186,9 +180,6 @@ button {
 	border-top: 1px solid #dadada;
 }
 
-.modal_top {
-	text-align: center;
-}
 
 .modal_tip {
 	font-size: 20px;
@@ -197,15 +188,6 @@ button {
 	font-weight: 600;
 }
 
-.modal_img {
-	height: 88px;
-}
-
-.modal_logo_name {
-	height: 43px;
-	color: #888;
-	font-weight: 400;
-}
 
 .hidden {
 	display: none;
@@ -217,6 +199,51 @@ button {
 }
 /* ---infoModify 모달 end ---*/
 
+
+
+.info_change_img{
+	color: #0095f6;
+	font-weight: bold;
+	cursor: pointer;
+}
+.info_change_img:hover{
+	color: #fff;
+}
+#profile_add_file{	
+	display: none;
+}
+
+.profile_add_img_file_input > label {
+	color: #0095f6;
+	padding: 14px 158px;
+    cursor: pointer;
+}
+.modal_img_delete > div{
+	color: #ed4956;
+	font-weight: bold;
+}
+
+.modal_wrap *{
+	text-align: center;
+}
+.modal_wrap > div{
+	height: 48px;
+	line-height: 3;
+	border-bottom: 0.5px solid #888;
+	font-weight: bold;
+	cursor: pointer;
+}
+.modal_wrap > div:nth-child(1) {
+	height: 80px;
+	line-height: 5;
+	cursor: default;
+}
+.modal_wrap > div:last-child {
+	border: none;
+}
+.modal_wrap > div:nth-child(3){
+	color: #ed4956;
+}
 /* ------인포 모디파이 스타일 end--------*/
 </style>
 </head>
@@ -428,31 +455,17 @@ function allCheck(){
 	<!--  모달  -->
 	<div class="modal_bg hidden"></div>
 	<div class="modal_wrap hidden">
-		<div class="modal_wrap_sub">
-			<div class="modal_top">
-				<div class="modal_img">
-					<img src="${cpath }/resources/img/userImg.jpg">
-				</div>
-				<div class="modal_tip">사용자의 프로필 사진</div>
-				<div class="modal_logo_name">Scenestagram</div>
-			</div>
-
-			<div>
-				<div class="modal_foot">
-					<div class="info_img_modify">
-						<form action="" class="profile_img_form">
-						  <div class="post_add_img_file_input">
-						    <label for="profile_add_file">프로필 사진 바꾸기</label>
-						    <input id="profile_add_file" type="file" name="profileimageFile" onchange="postAddFormHandler(event);">
-						  </div>
-						</form>
-					</div>
-					<div class="modal_foot_btn">
-						<button>취소</button>
-					</div>
-				</div>
-			</div>
+		<div>프로필 사진 바꾸기</div>
+		<div class="info_img_modify">
+			<form action="" class="profile_img_form">
+			  <div class="profile_add_img_file_input">
+			    <label for="profile_add_file">사진 업로드</label>
+			    <input id="profile_add_file" type="file" name="profileimageFile" onchange="profileAddFormHandler(event);">
+			  </div>
+			</form>
 		</div>
+		<div class="modal_img_delete">현재 사진 삭제</div>
+		<div class="modal_foot_btn">취소</div>
 	</div>
 
 
@@ -474,9 +487,10 @@ function allCheck(){
 		withdraw.onclick = withdrawHandler
 	</script>
 
+
 	<!--  프로필 사진 수정 스크립트 -->
 	<script type="text/javascript">
-	  function postAddFormHandler(event) {
+	  function profileAddFormHandler(event) {
 	    event.preventDefault();
 	    let profile_img_form_data = document.querySelector('.profile_img_form');
 	    let formData = new FormData(profile_img_form_data);
@@ -490,8 +504,13 @@ function allCheck(){
 	        location.reload(); // 페이지 새로고침
 	      });
 	  }
+	  
+	  // 사진 삭제시 기본이미지로 돌아감
+		const  modal_img_delete = document.querySelector('.modal_img_delete')
+		
+		modal_img_delete.onclick = profileAddFormHandler
+	  
 	</script>
-
 	<!--  모달  end -->
 
 	<!-- jquery 라이브러리 -->

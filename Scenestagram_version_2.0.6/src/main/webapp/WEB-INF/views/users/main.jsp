@@ -350,7 +350,8 @@ div.home-feed-right-myprofile .img-box img {
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	width: 100%;
+	width: 56px;
+	height: 56px;
 }
 
 div.home-feed-right-myprofile>div {

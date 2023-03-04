@@ -238,9 +238,13 @@ public class UsersController {
 	public int profileImgModify(MultipartFile profileimageFile , HttpSession session) {
 		UsersDTO login = (UsersDTO)session.getAttribute("login");
 		int idx = login.getIdx();
-		String fileName = profileimageFile.getOriginalFilename();
-		int result = usersService.profileImgModify(fileName, idx);
-		userProfile.saveProfile(profileimageFile);
+		String fileName = "userImg.jpg";
+		int result = 0;
+		if(profileimageFile != null && !profileimageFile.isEmpty()) {
+			fileName = profileimageFile.getOriginalFilename();
+			userProfile.saveProfile(profileimageFile);
+		}
+		result = usersService.profileImgModify(fileName, idx);
 		login.setUser_img(fileName);
 		session.setAttribute("login", login);
 		

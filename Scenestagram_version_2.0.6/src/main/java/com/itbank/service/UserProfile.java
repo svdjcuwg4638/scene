@@ -29,6 +29,7 @@ public class UserProfile {
         }
         File dest = new File(imgDir, user_img_file.getOriginalFilename());
         try {
+        	if (dest.exists()) {dest.delete();}
             user_img_file.transferTo(dest);
         } catch (IllegalStateException e) {
             e.printStackTrace();
