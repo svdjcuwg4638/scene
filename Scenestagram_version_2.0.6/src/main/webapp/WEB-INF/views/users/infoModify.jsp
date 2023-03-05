@@ -538,15 +538,9 @@ function allCheck(){
     	modal_foot_btn.onclick = info_closeModalHandler
     	modal_bg.onclick = info_closeModalHandler
     	
-
     </script>
-
 	<!-- 모달 스크립트  end-->
 
-	<!-- 이미지 변경 스크립트 -->
-	<script>
-
-	</script>
 	<!-- 닉네임 중복체크 스크립트 -->
 	<script>
 	const nick_name = document.querySelector('input[name="nick_name"]')

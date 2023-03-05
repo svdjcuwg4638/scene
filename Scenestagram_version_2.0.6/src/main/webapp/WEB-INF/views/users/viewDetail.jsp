@@ -345,13 +345,18 @@ div.insta-post-item-middle>* {
 
 .modalBox {
 	position: absolute;
-	background-color: #fff;
-	border-radius: 2%;
-	width: 400px;
-	height: auto;
-	padding: 0px;
+    background-color: #fff;
+    border-radius: 20px;
+    width: 400px;
+    height: 150px;
+    padding: 0px;
+    z-index: 400;
+    background-color: #222;
 }
 
+.modalBox * {
+	color: #fff;
+}
 .modalBox button {
 	display: block;
 	width: 80px;
@@ -359,7 +364,7 @@ div.insta-post-item-middle>* {
 }
 
 .modalBox div {
-	color: black;
+	line-height: 1;
 	text-align: center;
 	padding-top: 20px;
 	padding-bottom: 20px;
@@ -1149,6 +1154,40 @@ html {
 	font-weight: bold;
 	align-self: center;
 }
+
+/* 옵션 모달 창 css*/
+.option_modal{
+	position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 400;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.option_modal_bg{
+	position: absolute;
+    background-color: #000;
+    width: 100%;
+    height: 100vh;
+    z-index: 100;
+    margin: 0;
+    opacity: 0.3;
+}
+.modalBox > *{
+	height: 50px;
+	border-bottom: 1px solid #888;
+	margin: 0;
+	padding: 0;
+}
+.modalBox > div:nth-child(3) {
+	border: none;
+}
+
 /* 모달 페이지 css end */
 </style>
 <script>
@@ -1264,27 +1303,19 @@ html {
 		</div>
 		<div id="modal_overlay"></div>
 		<div class="close">
-			<svg aria-label="닫기" class="x1lliihq x1n2onr6"
-				color="rgb(255, 255, 255)" fill="rgb(255, 255, 255)" height="18"
-				role="img" viewBox="0 0 24 24" width="18">
-				<title>닫기</title><polyline fill="none"
-					points="20.643 3.357 12 12 3.353 20.647" stroke="currentColor"
-					stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></polyline>
-				<line fill="none" stroke="currentColor" stroke-linecap="round"
-					stroke-linejoin="round" stroke-width="3" x1="20.649" x2="3.354"
-					y1="20.649" y2="3.354"></line></svg>
+			<svg aria-label="닫기" class="x1lliihq x1n2onr6" color="rgb(255, 255, 255)" fill="rgb(255, 255, 255)" height="18" role="img" viewBox="0 0 24 24" width="18">
+				<title>닫기</title><polyline fill="none" points="20.643 3.357 12 12 3.353 20.647" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></polyline>
+				<line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" x1="20.649" x2="3.354" y1="20.649" y2="3.354"></line></svg>
 		</div>
 	</div>
 
 
 	<!-- 톱니바퀴 모달 -->
-	<div class="modal hidden">
-		<div class="bg"></div>
+	<div class="option_modal hidden">
+		<div class="option_modal_bg"></div>
 		<div class="modalBox">
-			<a href="${cpath }/users/infoModify_replacePw"><div>비밀번호 변경</div></a>
-			<hr>
-			<a href="${cpath }/users/logout"><div>로그아웃</div></a>
-			<hr>
+			<div><a href="${cpath }/users/infoModify_replacePw">비밀번호 변경</a></div>
+			<div><a href="${cpath }/users/logout">로그아웃</a></div>
 			<div class="closeBtn">취소</div>
 		</div>
 	</div>
@@ -1365,19 +1396,15 @@ html {
 		while(eventValue.className != 'item') {
 			eventValue = eventValue.parentNode
 		}
-	//		console.log(eventValue)
 		const size = document.querySelectorAll('.item').length
 		console.log(size)
 		const post_idx = eventValue.getAttribute('idx')
-	//		console.log(post_idx)
 		const index = eventValue.getAttribute('index')
 		post_content.setAttribute('index', index)
 		const url = cpath + '/post/modalTest/' + post_idx
-	//		console.log(size)
 		fetch(url)
 		.then(resp => resp.json())
 		.then(json => {
-	//			console.log(json)
 			const dto = json
 			const imgList = dto.FILE_NAME.split(',')			
 			const img_size = imgList.length
@@ -1445,7 +1472,6 @@ html {
 			}
 			
 			const post_data_content = document.querySelector('.post_data_content')
-	//		    console.log(post_data_content)
 		    
 		    const hashTagArr = post_data_content.innerText.split(' ').map(e => {
 				let ob = {
@@ -1493,18 +1519,15 @@ html {
 	async function commentsHandler() {
 		const comments = document.getElementById('comments')
 		const post_idx = comments.getAttribute('idx')		
-	//		console.log(comments)
 		comments.innerHTML = ''
 		const url = cpath + '/getComments/' + post_idx + '/' + users_idx
 			
 		await fetch(url)
 		.then(resp => resp.json())
 		.then(json => {
-	//			console.log(json)
 			
 			const arr = json
 			arr.forEach(dto => {
-	//				console.log(dto)
 				const html = htmlFromjson(dto)
 				comments.innerHTML += html				
 				
@@ -1591,15 +1614,12 @@ html {
 	function nextClickHandler(event) {	
 		const users_idx = document.querySelector('.post_content').getAttribute('user')
 		const offset = +post_content.getAttribute('index') + 1
-	//		console.log(offset)
 		const size = document.querySelectorAll('.item').length
 		const url = cpath + '/post/modalTest/' + users_idx + '/' + offset
-	//		console.log(url)
 		
 		fetch(url)
 		.then(resp => resp.json())
 		.then(json => {
-	//			console.log(json)
 			const dto = json
 			const imgList = dto.FILE_NAME.split(',')			
 			const img_size = imgList.length
@@ -1677,7 +1697,6 @@ html {
 			}
 			
 			const post_data_content = document.querySelector('.post_data_content')
-	//		    console.log(post_data_content)
 		    
 		    const hashTagArr = post_data_content.innerText.split(' ').map(e => {
 				let ob = {
@@ -1718,15 +1737,12 @@ html {
 	function prevClickHandler(event) {
 		const users_idx = document.querySelector('.post_content').getAttribute('user')
 		const offset = +post_content.getAttribute('index') - 1
-	//		console.log(offset)
 		const size = document.querySelectorAll('.item').length
 		const url = cpath + '/post/modalTest/' + users_idx + '/' + offset
-	//		console.log(url)
 		
 		fetch(url)
 		.then(resp => resp.json())
 		.then(json => {
-	//			console.log(json)
 			const dto = json
 			const imgList = dto.FILE_NAME.split(',')			
 			const img_size = imgList.length
@@ -1803,7 +1819,6 @@ html {
 			}
 			
 			const post_data_content = document.querySelector('.post_data_content')
-	//		    console.log(post_data_content)
 		    
 		    const hashTagArr = post_data_content.innerText.split(' ').map(e => {
 				let ob = {
@@ -1845,7 +1860,6 @@ html {
 		const images = document.querySelector('.images')
 		const length = +images.querySelectorAll('div.image').length
 		const index = +images.getAttribute('index')
-	//		console.log(index, length)
 		images.style.transitionDuration = '0.5s'
 		
 		if(index > 0) {
@@ -1866,7 +1880,6 @@ html {
 		const images = document.querySelector('.images')
 		const length = +images.querySelectorAll('div.image').length
 		const index = +images.getAttribute('index')
-	//		console.log(index, length)
 		images.style.transitionDuration = '0.5s'
 		
 		if(index >= 0 && index <= length - 1) {
@@ -1910,7 +1923,6 @@ html {
 		}
 		
 		for(let i = 0; i < size; i++) {
-	//			console.log(tmp[i].charCodeAt())
 			if(o.length != ob.front.length) {
 				if(tagFilter.includes(tmp[i])) {
 					break
@@ -2133,18 +2145,11 @@ html {
 			str = yyyy + '-' + mm + '-' + dd
 		}
 		
-	//		console.log(today.getFullYear() - yyyy)
-	//		console.log(today.getMonth() + 1 - mm)
-	//		console.log(today.getDate() - dd)
-	//		console.log(today.getHours() - hour)
-	//		console.log(today.getMinutes() - minutes)
-	
 		return str
 	}
 	
 	function makeBottom() {		
 		const post_content = document.querySelector('.post_content')
-	//		console.log(post_content)
 		const post_idx = document.getElementById('comments').getAttribute('idx')
 		
 		const url = cpath + '/post/modalTest/' + post_idx
@@ -2185,11 +2190,9 @@ html {
 	
 			
 			const comment_like = document.querySelectorAll('.comment_like')
-	//			console.log(comment_like)
 			comment_like.forEach(e => e.onclick = commentLikeHandler)
 			
 			const bottom_like = document.querySelector('.bottom_like')
-	//			console.log(bottom_like)
 			bottom_like.onclick = bottomLikeHandler
 			
 			const bottom_reply = document.querySelector('.bottom_reply')
@@ -2228,13 +2231,10 @@ html {
 		}
 		const bottom_like = document.querySelector('.bottom_like')
 		const post_idx = eventValue.getAttribute('idx')
-	//		console.log(post_idx)
 		const url = cpath + '/post/like/' + post_idx + '/' + users_idx
-	//		console.log(url)
 		fetch(url)
 		.then(resp => resp.text())
 		.then(text => {
-	//			console.log(text)
 			bottom_like.innerHTML = ''
 			if(text == 0) {					
 				bottom_like.innerHTML = '<svg aria-label="좋아요" class="_ab6-" color="rgb(245, 245, 245)" fill="rgb(245, 245, 245)" height="24" role="img" viewBox="0 0 24 24" width="24"><path d="M16.792 3.904A4.989 4.989 0 0 1 21.5 9.122c0 3.072-2.652 4.959-5.197 7.222-2.512 2.243-3.865 3.469-4.303 3.752-.477-.309-2.143-1.823-4.303-3.752C5.141 14.072 2.5 12.167 2.5 9.122a4.989 4.989 0 0 1 4.708-5.218 4.21 4.21 0 0 1 3.675 1.941c.84 1.175.98 1.763 1.12 1.763s.278-.588 1.11-1.766a4.17 4.17 0 0 1 3.679-1.938m0-2a6.04 6.04 0 0 0-4.797 2.127 6.052 6.052 0 0 0-4.787-2.127A6.985 6.985 0 0 0 .5 9.122c0 3.61 2.55 5.827 5.015 7.97.283.246.569.494.853.747l1.027.918a44.998 44.998 0 0 0 3.518 3.018 2 2 0 0 0 2.174 0 45.263 45.263 0 0 0 3.626-3.115l.922-.824c.293-.26.59-.519.885-.774 2.334-2.025 4.98-4.32 4.98-7.94a6.985 6.985 0 0 0-6.708-7.218Z"></path></svg>'				
@@ -2309,7 +2309,6 @@ html {
 				content.value = content.value.split('@' + nick_name)[1]
 			}
 		}
-	//		console.log(content.value)
 		
 		let ob = {}
 		if(parent_idx != null && depth != null) {
@@ -2341,7 +2340,6 @@ html {
 		fetch(url, opt)
 		.then(resp => resp.text())
 		.then(text => {
-	//			console.log(text)
 			if(text == 1) {
 				const bottom_input = document.querySelector('.bottom_input')
 				bottom_input.removeAttribute('parent_idx')
@@ -2378,7 +2376,6 @@ html {
 			eventValue = eventValue.parentNode
 		}
 		const comments_idx = eventValue.getAttribute('idx')
-	//		console.log(comments_idx)
 		if(confirm('정말 댓글을 삭제하시겠습니까?')) {
 			const url = cpath + '/removeComments/' + comments_idx
 			
@@ -2428,13 +2425,11 @@ html {
 	
 	function userSearchHandler(event) {
 		const nickName = event.target.innerText.replace('@', '')
-// 		console.log(nickName)
 		const url = cpath + '/users/getUserIDXByNickName/' + nickName
 		
 		fetch(url)
 		.then(resp => resp.text())
 		.then(text => {
-// 			console.log(text)
 			const idx = text
 			location.href = cpath + '/users/viewDetail/' + idx
 		})
@@ -2447,7 +2442,7 @@ html {
     const postCnt = document.getElementById('postCnt') // 게시물 카운트
     const followerCnt = document.getElementById('followerCnt') // 팔로워 카운트
     const followingCnt = document.getElementById('followingCnt') // 팔로잉 카운트
-    const option = document.querySelector('.option   ')   // 옵션(톱니바퀴)
+    const option = document.querySelector('.option')   // 옵션(톱니바퀴)
     
     // 본인이라면 톱니바퀴 표시
     function optionCheckHandler() {
@@ -2502,7 +2497,6 @@ html {
     
     // 팔로우 여부확인후 팔로우 팔로잉 표시
     function followHandler(event) {
-       console.log(event.target.value)
        if(event.target.innerHTML == '팔로우') {
           fetch('${cpath}/follow/${dto.idx}/${login.idx}')
           .then(resp => resp.text())
@@ -2534,15 +2528,15 @@ html {
     
 //     옵션 모달
     const open = () => {
-        document.querySelector(".modal").classList.remove("hidden")
+        document.querySelector(".option_modal").classList.remove("hidden")
     }
     const closeoption = () => {
-        document.querySelector(".modal").classList.add("hidden")
+        document.querySelector(".option_modal").classList.add("hidden")
     }
     
     document.querySelector(".option").addEventListener("click", open);
-    document.querySelector(".closeBtn").addEventListener("click", close);
-    document.querySelector(".bg").addEventListener("click", close);
+    document.querySelector(".closeBtn").addEventListener("click", closeoption);
+    document.querySelector(".option_modal_bg").addEventListener("click", closeoption);
    
 
     followBtn.onclick = followHandler
