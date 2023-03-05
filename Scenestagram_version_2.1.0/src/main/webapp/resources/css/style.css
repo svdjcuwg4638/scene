@@ -1,0 +1,28 @@
+@charset "utf-8";
+
+.list > .items {
+	width: 1000px;
+	display: flex;
+	flex-wrap: wrap;
+	margin: auto;
+}
+
+.list > .items > .item {	
+	border: 1px solid black;
+	margin: 10px;
+	padding: 10px;
+}
+
+.list > .items > .item img {
+	width: 100px;
+	height: 100px;
+}
+
+.list > .items > .item > .img {
+	display: flex;
+}
+
+.list > .items > .item > .img > div {
+	margin: 10px;
+}
+

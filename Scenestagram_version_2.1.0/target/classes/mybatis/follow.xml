@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.itbank.repository.FollowDAO">
+
+	<insert id="addFollow" parameterType="HashMap">
+		insert into follow (follower_idx, following_idx) values (#{idx}, #{myIdx})
+	</insert>
+	
+	<delete id="unFollow" parameterType="HashMap">
+		delete from follow where follower_idx = ${idx} and following_idx = ${myIdx}
+	</delete>
+	
+	<!-- 	02-08 -->
+	<select id="findFollow" parameterType="HashMap" resultType="int">
+		select count(*) from follow where follower_idx = #{idx} and following_idx = #{myIdx}
+	</select>
+	
+	
+<!-- 	idxhash.put("idx", idx); -->
+<!-- 		idxhash.put("myIdx", myIdx); -->
+
+	<select id="countFollowing" parameterType="int" resultType="int">
+		select count(*) from follow
+    		where following_idx=#{idx}
+	</select>
+	
+	<select id="countFollower" parameterType="int" resultType="int">
+		select count(*) from follow
+    		where follower_idx=#{idx}
+	</select>
+
+</mapper>

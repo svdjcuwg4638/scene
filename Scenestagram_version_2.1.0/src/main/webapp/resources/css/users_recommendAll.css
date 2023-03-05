@@ -1,0 +1,79 @@
+@charset "utf-8";
+
+/* 가운데 정렬 */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    position: relative;
+}
+/* 나머지 스타일 */
+.flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+}
+.img-box {
+    width: 44px;
+    height: 44px;
+    overflow: hidden;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+.img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+}
+.followBtn button {
+    background-color: #3897f0;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    padding: 7px 16px;
+    font-weight: bold;
+    font-size: 12px;
+}
+.followBtn.unfollow button {
+    background-color: #efefef;
+    color: #333;
+}
+.followBtn button:hover {
+    cursor: pointer;
+    background-color: #1877F2
+}
+#recommend-friend {
+    margin-top: 20px;
+}
+#center {
+   	align-items: center;
+   	position: absolute;
+   	top: 80px;
+}
+#center > div:nth-child(2) {
+   	width: 500px;
+}
+#fflex {
+   	display: flex;
+}
+.nick {
+   	font-weight: bold;
+}
+.nick a {
+	color: white;
+}
+.name {
+	font-size: 14px;
+	color: #A8A8A8
+}
+.hidden {
+	display: none;
+	visibility: hidden;
+} 

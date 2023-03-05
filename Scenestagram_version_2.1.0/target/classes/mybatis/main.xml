@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC
+	"-//mybatis.org//DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+	
+<configuration>
+	<settings>
+		<setting name="cacheEnabled" value="false" />
+		<setting name="useGeneratedKeys" value="false" />
+		<setting name="mapUnderscoreToCamelCase" value="false" />
+	</settings>
+	
+	<typeAliases>
+		<typeAlias type="com.itbank.model.UsersDTO" alias="users" />
+		<typeAlias type="com.itbank.model.PostDTO" alias="post" />
+		<typeAlias type="com.itbank.model.HashtagDTO" alias="hash" />
+		<typeAlias type="com.itbank.model.ImageDTO" alias="image" />
+		<typeAlias type="com.itbank.model.CommentsDTO" alias="comments" />		
+		<typeAlias type="com.itbank.model.ChatRoomDTO" alias="chatRoom" />		
+		<typeAlias type="com.itbank.model.ChatMessageDTO" alias="chatMessage" />		
+	</typeAliases>
+</configuration>

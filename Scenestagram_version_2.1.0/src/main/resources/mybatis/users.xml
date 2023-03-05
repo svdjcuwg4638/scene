@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.itbank.repository.UsersDAO">
+
+	<!-- 회원가입  -->
+	<insert id="insert" parameterType="users">
+		insert into users (email,
+		name, nick_name, pw, gender, birth, phone_number) values
+		(#{email}, #{name},
+		#{nick_name}, #{pw}, #{gender}, #{birth} , #{phone_number})
+	</insert>
+
+	<select id="login" parameterType="users" resultType="users">
+		select *
+		from users
+		where
+			phone_number = #{phone_number}
+<!-- 				and -->
+<!-- 					pw = #{pw} -->
+	</select>
+
+	<!-- 회원탈퇴  -->
+	<update id="updateUserStatus" parameterType="int">
+		update users
+		set
+		STATUS = 'deactivate'
+		where
+		idx = #{idx}
+
+	</update>
+
+	<!-- 개인정보 변경  -->
+	<update id="infoUpdate" parameterType="users">
+		update users
+		<set>
+			<if test="email != null">email = #{email},</if>
+			<if test="gender != null">gender = #{gender},</if>
+			<if test="birth != null">birth = #{birth},</if>
+			<if test="introduce != null">introduce = #{introduce},</if>
+			<if test="nick_name != null">nick_name = #{nick_name},</if>
+		</set>
+		where
+		idx = #{idx}
+	</update>	
+	
+	<!-- 비밀번호 변경  -->
+	<update id="updatePw" parameterType="users">
+		update users
+			set 
+				pw = #{pw}
+			where
+				phone_number = #{phone_number}
+	</update>
+	
+	<!-- idx로 회원정보 가져오기 -->
+	<select id="selectOne" parameterType="int" resultType="users">
+		select *
+		from users
+		where idx = #{idx}
+	</select>
+
+	<!--  id중복확인   -->
+	<select id="idCheck" parameterType="string" resultType="int">
+		SELECT COUNT(*) FROM users WHERE email= #{id}
+	</select>
+
+	<!--  회원 목록  -->
+	<select id="getList" parameterType="users" resultType="users">
+		select * from users
+	</select>
+	
+	<!--  아이디 찾기 -->
+	<select id="findId" parameterType="users" resultType="string">
+		select email from users where name=#{name} and phone_number=#{phone_number}
+	</select>
+	
+	<!-- 닉네임 중복 찾기 -->
+	<select id="countUserNickName" parameterType="string" resultType="int">
+		SELECT COUNT(*) FROM users WHERE nick_name= #{nickName}
+	</select>
+	
+	<!-- 전화번호 중복 찾기 -->
+	<select id="countUserPhoneNumber" parameterType="string" resultType="int">
+		SELECT COUNT(*) FROM users WHERE phone_number= #{phoneNumber}
+	</select>
+	
+	<!-- 검색 -->
+	<select id="usersSearch" parameterType="string" resultType="users">
+		select * from users where introduce like '%${search}%'
+	</select>
+
+	<select id="hashSearch" parameterType="string" resultType="hashmap">
+		SELECT h.idx, 
+       		h.hashtag, 
+       		COUNT(ph.idx) AS count_hashtag
+        	FROM hashtag h
+		        LEFT JOIN post_hashtag ph ON h.idx = ph.hashtag_idx
+		        LEFT JOIN post p ON ph.idx = p.idx
+        	WHERE h.hashtag LIKE '%${searchValue}%'
+        	GROUP BY h.idx, h.hashtag
+	</select>
+
+	<!-- 이메일 전화번호로 유저확인 -->
+	<select id="countUserEmailPhoneNumber" parameterType="hashmap" resultType="int">
+		select count(*) from users where email=#{email} and phone_number=#{phone_number}
+	</select>
+
+	<!--  nickName로 회원정보 하나 가져오기 -->
+	<select id="selectOneNickName" parameterType="string" resultType="users">
+		select * from users
+			where nick_name = #{nick_name}
+	</select>
+	
+	<select id="selectUserIDXByNickName" parameterType="string" resultType="int">
+		select idx from users where nick_name=#{nick_name}
+	</select>
+
+	<!-- 메인에서 유저 추천(메인이 온로드 될 때) -->
+   <select id="recommend" parameterType="int" resultType="users">
+		select distinct * from 
+		(
+		    select U.*, (select count(*) from follow where follower_idx=U.idx) as count from users U
+		        where
+		            U.idx != #{idx}
+		        and
+		            U.idx not in (
+		                            select follower_idx from follow where following_idx=#{idx}
+		                         )
+		        and
+		            U.idx not in (
+		                            select distinct A.idx from users A 
+		                                join
+		                                    (
+		                                        select follower_idx from follow
+		                                            where 
+		                                                following_idx in 
+		                                                (
+		                                                    select follower_idx from follow
+		                                                        where following_idx=#{idx}
+		                                                )
+		                                            and follower_idx != #{idx}
+		                                            and follower_idx not in
+		                                                (
+		                                                    select follower_idx from follow
+		                                                        where following_idx=#{idx}
+		                                                )
+		                                    ) B
+		                                on A.idx = B.follower_idx
+		                        )                
+		    union
+		    select distinct A.*, (select 999999999 from dual) as count from users A
+		        join
+		            (
+		                select follower_idx from follow
+		                    where
+		                        following_idx in
+		                        (
+		                            select follower_idx from follow
+		                                where following_idx=#{idx}
+		                        )
+		                    and follower_idx != #{idx}
+		                    and follower_idx not in
+		                        (
+		                            select follower_idx from follow
+		                                where following_idx=#{idx}
+		                        )
+		                ) B
+		        on A.idx = B.follower_idx
+		)
+		order by count desc, idx desc
+   </select>
+   
+   <!-- 유명인 추천 (팔로잉 0인 사람이 로그인 했을 때 팔로워가 가장 많은 사람을 추천해줌)-->
+   <select id="recommendFamous" parameterType="int" resultType="users">
+		select distinct * from 
+		(
+		    select U.*, (select count(*) from follow where follower_idx=U.idx) as count from users U
+		        where
+		            U.idx != #{idx}
+		        and
+		            U.idx not in (
+		                            select follower_idx from follow where following_idx=#{idx}
+		                         )
+		        and
+		            U.idx not in (
+		                            select distinct A.idx from users A 
+		                                join
+		                                    (
+		                                        select follower_idx from follow
+		                                            where 
+		                                                following_idx in 
+		                                                (
+		                                                    select follower_idx from follow
+		                                                        where following_idx=#{idx}
+		                                                )
+		                                            and follower_idx != #{idx}
+		                                            and follower_idx not in
+		                                                (
+		                                                    select follower_idx from follow
+		                                                        where following_idx=#{idx}
+		                                                )
+		                                    ) B
+		                                on A.idx = B.follower_idx
+		                        )                
+		    union
+		    select distinct A.*, (select 999999999 from dual) as count from users A
+		        join
+		            (
+		                select follower_idx from follow
+		                    where
+		                        following_idx in
+		                        (
+		                            select follower_idx from follow
+		                                where following_idx=#{idx}
+		                        )
+		                    and follower_idx != #{idx}
+		                    and follower_idx not in
+		                        (
+		                            select follower_idx from follow
+		                                where following_idx=#{idx}
+		                        )
+		                ) B
+		        on A.idx = B.follower_idx
+		)
+		order by count desc, idx desc
+   </select>
+   
+   	<!-- 유저 사진 업데이트 -->
+	<update id="updateuser_img" parameterType="hashmap">
+		update users set user_img=#{userimg} where idx=#{idx}
+	</update>
+</mapper>

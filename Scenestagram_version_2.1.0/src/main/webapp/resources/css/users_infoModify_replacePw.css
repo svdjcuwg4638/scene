@@ -1,0 +1,149 @@
+@charset "utf-8";
+
+/* ------인포 모디파이 스타일--------*/ 
+#info_submit_btn{
+	border: none;
+    background-color: rgb(0,149,246);
+    width: 131px;
+    color: rgb(255,255,255);
+    margin-bottom: 26px;
+}
+
+#introduce > textarea{
+	resize: vertical; 
+ 	width: 217px;
+  	height: 75px;
+  	max-height: 174px;
+  	border: 2px solid rgb(85,85,85);
+  	min-height: 75px;
+}
+
+.info_gender  select{
+	 background: transparent;
+	 border-radius: 3px;
+	 box-sizing: border-box;
+	 color: rgb(250,250,250);
+	 flex: 0 1 355px;
+	 font-size: 16px;
+	 height: 32px;
+	 padding: 0 10px;
+     width: 217px;
+     border: 1px solid rgb(85,85,85);
+}
+
+/* 모든 a태그 설정*/
+a{
+  text-decoration: none;
+  color: white;
+
+}
+
+/* 사이드 바 */
+.info_side{
+  height: 887px;
+  width: 236px;
+  border: 1px solid rgb(85,85,85);
+}
+.info_side > div{
+  width: 238px;
+  height: 51px;
+  display: block;
+  text-align: center;
+  line-height: 3;
+  cursor: pointer; 
+}
+
+/* 섹션 탑 flex화 */
+.info_section_top{
+  display: flex;
+  margin: 40px 0 40px 0;
+  align-items: center;
+}
+
+/* 섹션 이미지 div설정 */
+.info_section_top >:nth-child(1){
+  width: 194px;
+  padding-right: 36px;
+  text-align: right;
+  box-sizing: border-box;
+  
+}
+
+.info_side > div:nth-child(2){
+  border-left: 3px solid rgb(219, 219, 219);
+}
+
+.info_side > div:nth-child(1):hover {
+  border-left: 3px solid rgb(219, 219, 219);
+  
+}
+
+.info_submit_{
+  display: flex;
+  justify-content: space-between;
+  width: 374px;
+}
+
+
+
+/* 개인정보 섹션*/
+.info_section {
+  border: 1px solid rgb(85,85,85);
+  width: 599px;
+  height: 887px;
+
+}
+
+/*폼안에 div들 flex화 */
+.info_section_main>form>div {
+  display: flex;
+  margin: 60px 0 60px 0;
+}
+
+/* 섹션 테그*/
+.info_section_main>form>div> :nth-child(1) {
+  width: 194px;
+  text-align: right;
+  padding-right: 36px;
+  box-sizing: border-box;
+  font-weight: bold;
+  
+}
+
+.info_section_main input,textarea{
+  width: 355px;
+  background: transparent;
+  border-radius: 3px;
+  box-sizing: border-box;
+  color: rgb(250,250,250);
+  flex: 0 1 355px;
+  font-size: 16px;
+  height: 32px;
+  padding: 0 10px;
+  width: 100%;
+  border: 1px solid rgb(85,85,85);
+}
+
+.info_submit_ a{
+	color: #0095f6;
+    font-weight: bold;
+} 
+
+.info_top_img > img{
+	width: 40px;
+    border-radius: 30px;
+} 
+
+.info_name{
+	margin-bottom: 10px
+}
+
+.err{
+	color: red;
+    font-size: 12px;
+}
+.hidden {
+	display: none;
+	visibility: hidden;
+}
+/* ------인포 모디파이 스타일 end--------*/

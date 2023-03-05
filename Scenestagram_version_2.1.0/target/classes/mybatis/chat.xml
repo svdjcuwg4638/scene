@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.itbank.repository.ChatDAO">
+	<select id="selectChatRoomList" parameterType="int" resultType="hashmap">
+		select C.idx, U.idx as users_idx, U.nick_name, U.user_img from chat_room C
+		    join 
+			(
+			    select idx, nick_name, user_img from users where 
+			    (
+			        idx in (select participant1_idx from chat_room where participant1_idx=#{idx} or participant2_idx=#{idx})
+			        or
+			        idx in (select participant2_idx from chat_room where participant1_idx=#{idx} or participant2_idx=#{idx})
+			    )
+			    and
+			    idx != #{idx}
+			) U
+			on C.participant1_idx = U.idx or C.participant2_idx = U.idx
+			where C.participant1_idx=#{idx} or C.participant2_idx=#{idx}
+	</select>
+	
+	<select id="selectChatMessageList" parameterType="int" resultType="hashmap">
+		select C.*, U.nick_name, U.user_img  from chat C
+    			join users U
+    			on C.writer_idx=U.idx
+			where room_idx=#{room_idx}
+		order by C.idx
+	</select>
+	
+	<insert id="insertMessage" parameterType="chatMessage">
+		insert into chat(room_idx, writer_idx, content) values(
+			#{room_idx}, #{writer_idx}, #{content}
+		)		
+	</insert>
+</mapper>

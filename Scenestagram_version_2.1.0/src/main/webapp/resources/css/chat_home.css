@@ -1,0 +1,142 @@
+@charset "utf-8";
+
+/* * {border: 1px dashed red;} */
+    body {background-color: #000; color: white;}
+    ul, li {list-style: none; box-sizing: border-box; margin: 0; padding: 0;}
+    
+    .flex{display: flex;}
+    .column{flex-direction: column;}
+	
+	#dm {
+		width: 1000px;		
+		margin: auto;
+		position: relative;
+		top: 30px;
+	}
+	
+    .dm-box {
+        display: flex;
+        height: 800px;
+        flex-direction: row;
+        /* align-items: center; */
+        justify-content: flex-end;         		
+    }    
+
+    .dm-left-top {text-align: center;}
+    .dm-right-top {
+    	display: none;    	
+    }
+    
+    .login_nick {
+    	height: 80%;
+    	border-bottom: 1px solid rgb(54,54,54);
+    	padding: 20px 0px;
+    }    
+
+    .dm-middle {
+        display: flex;
+    }
+    .dm-box-right {  
+    	display: flex;
+        justify-content: center;     
+        flex: 0.5;
+        height: 700px;
+        margin: auto 0px;
+        position: relative;        
+    }
+    .dm-box-left {
+        display: flex;
+        justify-content: center;        
+        flex: 0.3;
+        height: 700px;
+        margin: auto 0px;
+    }  
+    .dm-box > * {
+        border: 1px solid rgb(54,54,54);
+    }
+    .dm-content{
+        width: 100%;        
+    }
+    
+    .item {
+    	padding: 10px 20px;
+    	align-items: center;
+    }
+    .item > div img {
+        border-radius: 50%;
+        width: 100%;
+        height: 100%;
+    }
+    .item:hover {
+        background-color: #0f0f0f;
+    }
+    .item .user_img {
+    	width: 56px;
+    	height: 56px;    	
+    }
+    .item .user_nick {
+    	margin: 5px 5px 0px 10px;
+    }
+    .bottom_box {
+    	display: none;
+    	height: 10%;
+    	margin: auto;
+    }
+    .bottom_menu {
+    	display: flex;
+    	justify-content: center;
+    	align-items: center;
+    	width: 90%;
+    	height: 65%;
+    	border: 1px solid rgb(54,54,54);
+    	border-radius: 22px;
+    	box-sizing: border-box;
+    	background-color: #000;
+    	color: white;
+    }
+    .message_box {    	
+    	width: 100%;
+    	height: 80%;
+    	overflow-wrap: anywhere;
+    	overflow-y: scroll;       
+    }
+    .message_box::-webkit-scrollbar { display:none; }
+    
+    .user_info {
+    	display: flex;
+    	align-items: center;
+
+    	height: 65px;
+    	border-bottom: 1px solid rgb(54,54,54);
+    	padding: 20px 50px;
+    }
+    .user_info div img {
+    	border-radius: 50%;
+        width: 100%;
+        height: 100%;
+    }
+    .user_info .user_img {
+    	width: 24px;
+    	height: 24px; 
+    }
+    .user_info .nick {
+    	margin: 5px 5px 0px 10px;
+    }
+    .other div img {
+    	border-radius: 50%;
+    	width: 100%;
+    	height: 100%;
+    }
+    .other .user_img {
+    	margin-bottom: 8px;
+    	margin-right: 4px;
+    	width: 24px;
+    	height: 24px;
+    }
+    .nick:hover {
+		font-size: 15px;
+		font-weight: bold;
+	}
+	div.hidden {
+		display: none;
+	}

@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.itbank.repository.PostDAO">
+
+	<select id="selectImage" resultType="image">
+		select image.* from image 
+       			join post
+        		on image.post_idx = post.idx
+    		where post.status = 'activate'
+		order by image.idx desc
+	</select>
+
+	<select id="selectDetail" parameterType="int" resultType="post">
+		select * from post
+			where idx=#{post_idx} and status='activate'
+		order by idx desc
+	</select>
+	
+	<select id="selectImageName" parameterType="int" resultType="string">
+		select file_name from image
+			where post_idx=#{post_idx}
+		order by idx desc
+	</select>
+	
+	<update id="updateViews" parameterType="int">
+		update post set views=views+1 where idx=#{post_idx}
+	</update>
+	
+	<insert id="insertPost" parameterType="post">
+		insert into post values(
+			post_seq.nextval, #{users_idx}, #{content}, #{location}, sysdate, 'activate', 0 
+		)
+	</insert>
+	
+	<select id="getMaxIDX" parameterType="int" resultType="int">
+		select max(idx) from post where users_idx=#{users_idx}
+	</select>
+	
+	<insert id="insertImage" parameterType="image">
+		insert into image values(
+			image_seq.nextval, #{post_idx}, #{file_name}
+		)
+	</insert>
+	
+	<select id="getHashIDX" parameterType="string" resultType="integer">
+		select idx from hashtag where hashtag=#{tag}
+	</select>
+	
+	<insert id="insertPostHashTag" parameterType="hashmap">
+		insert into post_hashtag values(
+			post_hashtag_seq.nextval, #{post_idx}, #{tag}
+		)
+	</insert>
+	
+	<select id="getUsersIDX" parameterType="string" resultType="integer">
+		select idx from users where nick_name=#{user}
+	</select>
+	
+	<insert id="insertUserTag" parameterType="hashmap">
+		insert into post_users_tag values(
+			post_users_tag_seq.nextval, #{post_idx}, #{user}
+		)
+	</insert>
+	
+	<select id="selectLikeStatus" parameterType="hashmap" resultType="int">
+		select count(*) from post_users_like where post_idx=#{post_idx} and users_idx=#{users_idx}
+	</select>
+	
+	<insert id="insertLike" parameterType="hashmap">
+		insert into post_users_like values(
+			post_users_like_seq.nextval, #{post_idx}, #{users_idx}
+		)
+	</insert>
+	
+	<delete id="deleteLike" parameterType="hashmap">
+		delete post_users_like where post_idx=#{post_idx} and users_idx=#{users_idx}
+	</delete>
+	
+	<insert id="insertHashTag" parameterType="string">
+		insert into hashtag values(
+			hashtag_seq.nextval, #{tag}
+		)		
+	</insert>
+	
+	<delete id="deletePostHashTag" parameterType="int">
+		delete post_hashtag where post_idx=#{post_idx}
+	</delete>
+	
+	<select id="searchHashTag" parameterType="string" resultType="int">
+		select count(*) from hashtag where hashtag=#{tag}
+	</select>
+	
+	<select id="selectPostIDX" parameterType="int" resultType="integer">
+		select idx from post where users_idx=#{users_idx} and status='activate' order by idx desc
+	</select>
+	
+	<select id="selectPostImage" parameterType="int" resultType="image">
+		select * from image where post_idx=#{post_idx}
+	</select>
+	
+	<update id="updateStatus" parameterType="int">
+		update post set status='deactivate'
+			where idx=#{post_idx}
+	</update>
+	
+	<select id="selectLikeCount" parameterType="int" resultType="int">
+		select count(*) from post_users_like where post_idx=#{post_idx}
+	</select>
+	
+	<update id="updatePost" parameterType="post">
+		update post set content=#{content}, location=#{location}		
+			where idx=#{idx}
+	</update>
+
+	<!--해시태그 결과에 대한 리스트 반환 (스크롤 페이징) -->
+	<select id="getPostList" parameterType="hashmap" resultType="hashmap">
+		select distinct A.*,
+    		(select count(*) from comments where post_idx=A.post_idx and status='activate') as postCommentCount,
+    		(select count(*) from post_users_like where post_idx=A.post_idx) as postLikeCount from image A
+			where post_idx in
+			(
+			    select A.idx from post A
+			            join
+			            (
+			                select A.post_idx from post_hashtag A
+			                        join hashtag B
+			                        on A.hashtag_idx = B.idx
+			                    where B.hashtag=#{hashtag}
+			            ) B
+			            on A.idx=B.post_idx
+			        where A.status = 'activate'
+			) 
+			or post_idx in       
+			(
+			    select A.idx from post A
+			            join
+			            (
+			                select A.post_idx from comments_hashtag A
+			                        join hashtag B
+			                        on A.hashtag_idx = B.idx
+			                    where B.hashtag=#{hashtag}
+			            ) B
+			            on A.idx=B.post_idx
+			        where A.status = 'activate'
+			)
+		order by idx desc
+		offset #{offset} rows   
+		fetch first 12 rows only
+	</select>
+	
+	<!-- 타임라인 게시글 스크롤  -->
+	<select id="getScroll" parameterType="hashmap" resultType="hashmap">
+		select A.*, 
+		    (select count(*) from post_users_like where post_idx = A.idx) as like_count,
+		    (select count(*) from comments where post_idx = A.idx) as comments_count
+	    from
+				(
+		    		select  P.*,   
+			        U.nick_name,
+			        U.user_img,
+			        I.file_name         
+			            from post P
+			        join users U
+			        on U.idx = P.users_idx
+			        join image I
+			        on I.post_idx = P.idx
+			        
+			        where U.idx in(select follower_idx from follow where following_idx=#{idx}) and P.status='activate'
+				) A
+			order by A.idx desc
+			offset #{offset} rows
+			fetch first 3 rows only
+	</select>
+
+	<select id="bringPost" parameterType="hashmap" resultType="hashmap">
+      	select A.*,
+      		(select count(*) from comments where post_idx=A.post_idx and status='activate') as postCommentCount,
+           	(select count(*) from post_users_like where post_idx=A.post_idx) as postLikeCount from image A
+            	join
+            	(
+					select A.idx from post A
+							join users B
+							on A.users_idx = B.idx
+						where B.idx = #{idx} and A.status = 'activate'
+					) B
+		on A.post_idx = B.idx
+		order by A.post_idx desc
+		offset #{offset} rows   
+		fetch first 12 rows only
+   	</select>
+   	
+   	<select id="selectDetailData" parameterType="int" resultType="hashmap">
+   		select P.*, U.nick_name, U.user_img, I.file_name,
+    		(select count(*) from post_users_like where post_idx=P.idx) as like_count from post P
+        		join image I
+        		on p.idx = I.post_idx
+        		join users U
+                on p.users_idx = U.idx
+    		where P.idx=#{post_idx} and P.status='activate'
+		order by P.idx desc
+   	</select>
+	
+	<select id="selectData" parameterType="hashmap" resultType="hashmap">
+		select P.*, U.nick_name, U.user_img, I.file_name,
+    		(select count(*) from post_users_like where post_idx=P.idx) as like_count from post P
+        		join image I
+        		on p.idx = I.post_idx
+                join users U
+                on p.users_idx = U.idx
+			where P.users_idx=#{users_idx} and P.status='activate'
+		order by P.idx desc
+        offset #{offset} rows
+		fetch first 1 rows only
+	</select>
+
+	<!-- 탐색페이지에서 불러올 추천 게시글 -->
+   	<select id="explore" resultType="hashmap">
+      	select A.*,
+      		(select count(*) from comments where post_idx=A.post_idx and status='activate') as postCommentCount,
+           	(select count(*) from post_users_like where post_idx=A.post_idx) as postLikeCount from image A
+		    join
+		    (
+		        select A.idx, (select count(*) from post_users_like where post_idx=A.idx) as count from post A                
+		            where A.status = 'activate'
+		        group by A.idx
+		        
+		    ) B
+		    on A.post_idx=B.idx
+		order by B.count desc, A.post_idx desc
+		offset #{offset} rows
+		fetch first 12 rows only
+   	</select>
+
+	 <!-- 탐색 결과에 대한 게시글의 카운트 -->
+    <select id="resultCount" parameterType="string" resultType="int">
+     	select distinct count(*) from (
+			select H.post_idx from post_hashtag H
+        			join post P
+        			on H.post_idx=P.idx
+    			where H.hashtag_idx=(select idx from hashtag where hashtag=#{hashtag}) and P.status='activate'
+    		group by H.post_idx
+    
+		union
+
+			select distinct H.post_idx from comments_hashtag H
+        			join post P
+        			on H.post_idx=P.idx
+        			join comments C
+        			on P.idx=C.post_idx
+    			where H.hashtag_idx=(select idx from hashtag where hashtag=#{hashtag}) and P.status='activate' and C.status='activate'
+    		group by H.post_idx
+		)
+   	</select>
+     
+     	<!-- 뷰디테일의 포스트 개수를 반환하는 countPost -->
+  	 <select id="countPost" parameterType="int" resultType="int">
+      		select count(*) from post P 
+	         	join users U
+	         	on P.users_idx = U.idx
+       		where U.idx = #{idx} and P.status='activate'
+   	</select>
+   	
+   	<select id="selectPostDetailOne" parameterType="int" resultType="hashmap">
+   		select P.*, U.nick_name, U.user_img, I.file_name,
+    		(select count(*) from post_users_like where post_idx=P.idx) as like_count from post P
+        		join image I
+        		on p.idx = I.post_idx
+        		join users U
+                on p.users_idx = U.idx
+    		where P.status='activate'
+		order by like_count desc, P.idx desc
+        offset #{offset} rows
+		fetch first 1 rows only
+   	</select>
+   	
+   	<select id="selectPostDetailHashtag" parameterType="hashmap" resultType="hashmap">
+   		select P.*, U.nick_name, U.user_img, I.file_name,
+    		(select count(*) from post_users_like where post_idx=P.idx) as like_count from post P
+        		join image I
+        		on p.idx = I.post_idx
+        		join users U
+                on p.users_idx = U.idx
+    		where P.idx in
+			(
+			    select A.idx from post A
+			            join
+			            (
+			                select A.post_idx from post_hashtag A
+			                        join hashtag B
+			                        on A.hashtag_idx = B.idx
+			                    where B.hashtag=#{hashtag}
+			            ) B
+			            on A.idx=B.post_idx
+			        where A.status = 'activate'
+			) 
+			or post_idx in       
+			(
+			    select A.idx from post A
+			            join
+			            (
+			                select A.post_idx from comments_hashtag A
+			                        join hashtag B
+			                        on A.hashtag_idx = B.idx
+			                    where B.hashtag=#{hashtag}
+			            ) B
+			            on A.idx=B.post_idx
+			        where A.status = 'activate'
+			)
+		order by P.idx desc
+        offset #{offset} rows
+		fetch first 1 rows only
+   	</select>
+
+</mapper>

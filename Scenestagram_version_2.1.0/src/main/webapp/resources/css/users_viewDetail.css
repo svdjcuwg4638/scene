@@ -1,0 +1,1073 @@
+@charset "utf-8";
+
+/* Default */
+/* 모든속성에 적용. 레이아웃잡을때 사용함 */
+*{
+    /* border: 1px dashed red; */
+    margin: 1px;
+    padding: 0;
+    box-sizing: border-box;
+    color: #fff;
+}
+
+/* ul, li태그에 기본으로 스타일을 안주기 */
+ul,li{list-style: none;}
+
+/* a태그 밑줄 없애기 */
+a {text-decoration: none;}
+
+/* 댓글박스 */
+textarea {
+    background-color: #262626;
+    color: #fff;
+    
+}
+
+
+body {
+    background-color: #0f0f0f;
+}
+div {
+    min-height: auto;
+    min-width: auto;
+    display: block;
+    margin-top: 5px;
+    margin-bottom: 19px;
+   
+}
+/* div클래스 명이 flex이면 display flex속성 적용 */
+/* 클래스명은 여러가지가 되기때문에 일일히 style적용하기 번거로워서 */
+div.flex {display: flex;}
+
+/* 위와 같음 */
+.i-col-0>* {
+    display: inline-block;
+    font-size: 16px;
+    vertical-align: middle;
+    width: auto;
+}
+
+
+/* 메뉴에 마우스호버 했을 때 */
+li:hover{
+    background-color: rgb(18,18,18);    
+    border-radius: 24px;
+}
+
+/* 위와 같음. 더보기는 다른 박스로 묶여있기 때문에 따로 적어주었다 */
+/* 추후에 수정할 수도 있음 */
+div.left-menu > .i-col-0:hover {    
+    background-color: rgb(18,18,18);
+    border-radius: 24px;
+    cursor: pointer;
+}
+
+
+/* img 기본틀 */
+div.img-box .img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+}
+
+/* 전체 화면 */
+
+div.home-feed {
+    display: flex;    
+    width: 70%;
+    margin: auto;    
+}
+
+/* 스토리, 게시글 */
+div.home-feed-left {
+    display: block;
+    min-width: auto;
+    margin-right: 64px;
+}
+
+div.home-feed-right {
+    display: block;
+    position: sticky;    
+}
+
+div.story {
+    display: flex;
+}
+
+div.insta-main-top {
+    padding: 32px 0 16px;
+    overflow: hidden;
+    position: relative;
+    width: 2000px;
+}
+div.insta-main-top-ul-item .img-box {
+    width: 66px;
+    height: 66px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #1cd14f;
+    position: relative;
+}
+
+div.insta-main-top-ul-item .img-box img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+}
+div.insta-main-top-ul {
+    display: flex;
+}
+
+div.insta-post-item {
+    border-bottom: 1px solid rgb(38, 38, 38);
+    padding-bottom: 20px;
+    margin-bottom: 12px;
+}
+div.insta-post-item-top {
+    display: flex;
+    /* justify-content: space-between; */
+    position: relative;
+    padding: 12px 0;
+}
+div.insta-post-item-top .img-box {
+    position: relative;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+div.insta-post-item-top .img-box img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+}
+div.insta-post-item-top .id-box {
+    font-size: 14px;
+    color: #a8a8a8;
+    padding-left: 10px;
+}
+div.insta-post-item-top .id-box .id {
+    color: #fff;
+}
+div.insta-post-item-top .id-box .day {
+    color: #a8a8a8;
+}
+div.insta-post-item-top .option-box {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+}
+
+/* 게시글 사진 */
+div.insta-post-item-middle .img-box {
+    position: relative;
+    height: 0;
+    padding-bottom: 74.7%;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+/* 이미지를 가운데에 배치하는 작업 */
+div.insta-post-item-middle .img-box img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+}
+
+/* 좋아요, 댓글, DM버튼 ...  */
+div.insta-post-item-btn-box {    
+    padding: 8px 0 10px;   
+}
+
+div.insta-post-item-btn-ul {   
+    margin: -8px;
+    position: relative;    
+}
+
+div.insta-post-item-btn-ul li {
+    padding: 8px;
+}
+
+/* 북마크(저장) */
+div.insta-post-item-btn-ul li.bookmark {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+}
+
+/* 좋아요 */
+div.insta-post-item-comment .good {
+    font-weight: 600;
+    font-size: 14px;
+    color: #fff;
+}
+
+/* 홈피드 top에 패딩 주어서 위치설정 */
+div.home-feed {padding-top: 40px;}
+
+/* 오른쪽 포스트 */
+
+div.home-feed-right {min-width: 360px;}
+
+/* 피드 오른쪽 top 마이프로필 */
+div.home-feed-right-myprofile {
+    display: flex;
+    justify-content: space-between;
+}
+div.home-feed-right-myprofile .img-box {
+    width: 66px;
+    height: 66px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #1cd14f;
+    position: relative;
+    display: inline-block;
+}
+
+div.home-feed-right-myprofile .img-box img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+}
+div.home-feed-right-myprofile > div {
+	display: flex;    
+}
+
+/* 추천회원 프로필 img / 뷰디테일 프사*/ 
+div.flex > .img-box {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #1cd14f;
+    position: relative;    
+}
+
+div.left-bottom-menu {
+    display: none;
+    flex-direction:column;
+    justify-content: space-around;
+    width: 100%;
+    position: absolute;
+    bottom: 63px;
+    border: 1px dashed;
+    height: 400px;
+    font-size: 16px;
+    z-index: 1;
+}
+div.left-bottom.i-col-0:hover div.left-bottom-menu {
+    display: flex;
+}
+
+div.left-bottom-menu >div > * {
+    display: flex;
+    justify-content: space-between;
+    vertical-align: middle;    
+}
+
+div.mypage {
+	width: 100%;
+}
+
+div.insta-post-item-middle > * {
+    width: 300px;
+    height: 300px;    
+}
+
+
+/* 사이드 프로필 미니 프사*/ 
+.miniImg-box {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #1cd14f;
+    position: relative;    
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+.modal .bg {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+.modalBox {
+	position: absolute;
+    background-color: #fff;
+    border-radius: 20px;
+    width: 400px;
+    height: 150px;
+    padding: 0px;
+    z-index: 400;
+    background-color: #222;
+}
+.modalBox * {
+	color: #fff;
+}
+.modalBox button {
+    display: block;
+    width: 80px;
+    margin: 0 auto;
+}
+.modalBox div {
+	line-height: 1;
+	text-align: center;
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+.modalBox > hr {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+.modalBox > div:hover {
+    cursor: pointer;
+}
+
+
+#imgLine {
+   flex-flow: wrap;
+   width: 100%
+}
+
+div.home-main {
+    display: flex;            
+    width: 100%;
+}
+div.screen {
+    display: flex;
+    flex-flow: column;
+    width: 83%;
+}
+
+	
+.all_wrap{
+	margin: 0;
+    display: flex;
+    justify-content: end;
+    background-color: #000;    
+    position: relative;
+    top: 0;
+    width: 100%;
+    height:100vh;
+    overflow-y: scroll;
+    overflow-x: hidden;    
+}
+.main_wrap {
+	position: absolute;
+    justify-content: end;
+    width: 72%;
+    display: flex;
+   	flex-flow: column;   	
+   	padding: 0px;
+   	right: 40px;
+   	top: 30px;
+}
+
+div.main{
+   	width: 100%;
+    min-height: auto;
+    min-width: auto;
+}
+.view_detail_top{
+	width: 100%;
+}
+
+.top_profile_img > img{
+	width: 150px;
+	height: 150px;
+    border-radius: 50%;
+    object-fit: fill;
+} 
+.top_profile_img{
+	width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.view_detail_top_right_box{
+	width: 70%;
+}
+.right_top{
+	display: flex;
+	align-items: center;
+	
+}
+.right_top_middle{
+	display: flex;
+	
+}
+.text-box{
+	font-size: 20px;
+    margin-right: 24px;
+    font-weight: 500;
+    padding-top: 14px;
+}
+#followBtn{
+	height: 32px;
+    width: 98px;
+    border-radius: 11px;
+    margin-right: 10px;
+    font-weight: 600;
+    color: #fff;
+    background-color: #1877f2;
+}
+.right_top_middle *{
+	font-size: 16px;
+	font-weight: 500;
+}
+.right_top_middle > div{
+	margin-right: 47px;
+}
+.right_top_name{
+	font-weight: 500;
+}
+.right_top_content{
+	font-weight: 100;
+    font-size: 14px;
+}
+.wrap_middle{
+	text-align: center;
+    border-top: 1px solid #aaa;
+    padding-top: 20px;
+}
+
+
+.foot{
+	text-align: center;
+	padding-bottom: 50px;
+}
+
+
+.post-modal {
+	position: fixed;
+    z-index: 3;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.post-modal_backgound{
+	background-color: #000;
+    opacity: 0.1;
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    z-index: 4;
+}
+.post-modal_content{
+	width: 86%;
+    height: 90%;
+    z-index: 5;
+    position: absolute;
+    display: flex;
+    background-color: #000;
+}
+.post-modal_content_left_img > img{
+	width: 100%;
+	height: 100%;
+} 
+.post-modal_content_left_img{
+	width: 60%;
+}
+.post-modal_content_right_top{
+    display: flex;
+    justify-content: space-between;
+    padding: 0px;
+    padding-left: 20px;
+    padding-top: 12px;
+    height: 8%;
+}
+.post-modal_content_right_top img{
+	width: 32px;
+	border-radius: 80px;
+}
+.post-modal_content_right{
+	height: 100%;
+    width: 40%;
+}
+.post-modal_content_right_bottom_1 > div:first-child {
+	display: flex;
+    margin-top: 14px;
+    margin-bottom: 6px;
+}
+.post-modal_content_right_cmt{
+	height: 50%;
+    border-top: 1px solid #888;
+    border-bottom: 1px solid #888;
+}
+.post-modal_content_right_bottom_1 > div div{
+	margin-left: 15px;
+}
+.post-modal_content_right_cmt_write textarea {
+    width: auto;
+    resize: none;
+    width: 100%;
+    border: none;
+    background-color: #000;
+    outline: none;
+    height: 30px;
+}
+.post-modal_content_right_cmt_write > div:first-child {
+	width: 86%;
+	
+}
+.post-modal_content_right_bottom_1 > div:nth-child(2) {
+	margin-left: 15px;	
+}
+.post-modal_content_right_cmt_write{
+    display: flex;
+    border-top: 1px solid #888;
+    padding: 0px;
+    padding-left: 16px;
+    padding-top: 16px;
+}
+.post-modal_content_right_bottom_1{
+	margin-bottom: 16px;
+}
+.item img{
+	width: 100%;
+    height: 100%;
+}
+.item {
+	width: 30%;
+	margin:13px;
+	position: relative;
+}
+.right_top_opt {
+	margin-left: 20px;
+    margin-top: 23px;
+}
+html {
+	overflow: hidden;
+}
+.hidden {
+	display: none;
+    visibility: hidden;
+}
+
+ .item {
+   width: 293px;
+   height: 293px;
+   margin: 14px;
+ }
+  
+.list > .items > .item > img {
+	width: 293px;
+	height: 293px;
+	object-fit: fill;
+}
+
+.list > .items {
+	display: flex;
+    flex-wrap: wrap;
+    margin-left: 80px;    
+}
+
+.list{
+	min-height: 800px;
+}
+
+/* 포스트 호버시 나오는 창 start */
+.post_like_commend_background{
+    background-color: #000;
+    width: 100%;
+    height:100%;
+    position: absolute;
+}
+.post_like_commend{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	top: 0;
+}
+.post_like_commend *{
+    color: #fff;
+}
+.post_like_commend img{
+    width: 19px;
+    height: 19px;
+    border-radius: 13px;
+}
+.post_like_commend_like {
+	display: flex;
+	margin-right: 10px;
+}
+.like {
+	background-repeat: no-repeat;
+    background-position: -340px -333px;
+    height: 19px;
+    width: 19px;
+    margin: 0px 5px;
+}
+.post_like_commend_commend{
+    display: flex;	
+}
+.commend {
+	background-repeat: no-repeat;
+    background-position: -382px -333px;
+    height: 19px;
+    width: 19px;
+    margin: 0px 5px;
+}
+.post_like_commend_wrap{
+    position: absolute;
+    display: flex;
+}
+.post_like_commend_wrap div{
+    margin: 0px 30px;
+}
+.post_like_commend_background{
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    opacity: 0.5;
+    margin: 0px 0px 8px 0px;
+}
+      
+.post_like_commend_hidden{
+	display: none;
+}
+
+.item:hover > div:nth-child(2) {
+	display: flex;
+	cursor: pointer;
+}	
+/* 포스트 호버시 나오는 창 end */
+		
+/* 모달 페이지 css start */    
+.modal {
+	display: none;
+}
+.modal_content {		
+	position: absolute;	
+	justify-content: center;
+	align-items: center;		
+	top: 50%;
+	left: 50%;			
+	width: 1200px;
+	height: 900px;	
+	display: none;
+	background-color: #000;	
+	text-align: center;	
+	box-shadow: 0 2px 3px 0 black;	
+	transform: translateX(-50%) translateY(-50%);
+	z-index: 5;
+}
+	.modal_content div {
+	margin: 0px;
+}
+.image_content {
+	display: flex;		
+	align-items: center;
+	position: relative;
+	
+	width: 700px;
+	height: 700px;
+	
+	overflow: hidden;	
+}
+.post_content {
+	width: 400px;
+	height: 750px;
+	text-align: center;
+	background-color: inherit;
+	border-left: 1px solid rgb(54,54,54);
+}	
+.post_content > div {
+	background-color: inherit;
+}
+.post_content pre {
+	white-space: pre-wrap;
+}
+.prevBtn {		
+	width: 32px;
+	height: 32px;
+	position: absolute;
+	top: 450px;
+	left: 20px;
+	
+	display: none;	
+	
+	background: white;
+    border-radius: 50%;	    
+    box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
+    
+    cursor: pointer;
+    opacity: 1;
+    transition-duration: .2s;
+    transition-property: opacity;
+    z-index: 5;
+}
+.prevBtn .prevBtn_btn {
+	align-items: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    padding: 7px;
+}
+.prevBtn .prevBtn_btn .prevBtn_imt {
+	align-items: center;
+   	display: flex;
+   	justify-content: center;
+   	transform: rotate(270deg);
+   	margin: 0px;
+}
+.nextBtn {
+	width: 32px;
+	height: 32px;
+	position: absolute;
+	top: 450px;
+	right: 50px;
+	
+	display: none;	
+	
+	background: white;
+    border-radius: 50%;	    
+    box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
+    
+    cursor: pointer;
+    opacity: 1;
+    transition-duration: .2s;
+    transition-property: opacity;
+    z-index: 5;    
+}
+.nextBtn .nextBtn_btn {
+	align-items: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    padding: 8px;
+}
+.nextBtn .nextBtn_btn .nextBtn_imt {
+	align-items: center;
+   	display: flex;
+   	justify-content: center;
+   	transform: rotate(90deg);
+   	margin: 0px;
+}
+.left {
+	position: absolute;
+	top: 50%;
+	left: 0px;		
+	
+	display: none;
+	text-align: center;
+	
+	border-radius: 10px;
+	z-index: 3;
+}
+.right {
+	position: absolute;
+	top: 50%;
+	right: 0px;		
+			
+	text-align: center;
+	
+	border-radius: 10px;
+	z-index: 3;
+}
+.next {	
+	background-color: unset;
+    background-repeat: no-repeat;
+    background-position: -162px -98px;
+    height: 30px;
+    width: 30px;
+    cursor: pointer;
+}
+.prev {
+	background-color: unset;
+	background-repeat: no-repeat;
+    background-position: -130px -98px;
+    height: 30px;
+    width: 30px;
+    cursor: pointer;
+}
+.item:hover {
+	cursor: pointer;
+}
+.images {
+	position: absolute;
+	display: flex;		
+	height: 500px;
+	left: 0px;	
+	transition-duration: 0.5s;		
+}
+.image {
+	position: relative;
+	top: 0;
+	width: 700px;
+	height: 500px;
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-size: auto 100%;
+	background-position: center center;
+	background-repeat: no-repeat;			
+}
+.image > img {
+	width: 700px;
+	height: 700px;
+}
+#modal_overlay {		
+	position: absolute;		
+	top: 0;
+	left: 0;
+	
+	width: 100%;
+	height: 100vh;
+	
+	display: none;
+	
+	background-color: rgba(0, 0, 0, 0.6);
+	z-index: 4;
+}
+.hidden {
+	display: none;
+}
+.close {
+	display: none;
+	position: absolute;
+	right: 50px;
+	top: 30px;
+	cursor: pointer;
+	z-index: 5;
+}
+.post-comment a {
+	color: rgb(224,241,255);
+}
+.userSearch:hover {
+	cursor: pointer;
+}
+.dot {
+	color: rgb(168,168,168);
+	margin: 0px 5px;
+}
+.post_content .pro_info {
+	display: flex;
+	border-bottom: 1px solid rgb(54,54,54);
+	padding: 15px;
+}
+.post_content .pro_info a {
+	color: white;
+}
+.pro_box .pro_nic {
+	font-weight: bold;
+	text-align: left;
+}
+.pro_box .pro_loc {
+ 	font-size: 12px;
+}
+.post_content .pro_img,
+.post_items .post_pro_img,
+.comment_box .comment_img {
+	width: 32px;
+	height: 32px;
+	margin-right: 10px;
+}
+.post_content .pro_img img,
+.post_items .post_pro_img img,
+.comment_box .comment_img img {
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+}
+.post_items {	
+	padding: 15px;
+	height: 500px;
+	border-bottom: 1px solid rgb(54,54,54);
+	overflow-y: scroll; 
+}
+.post_items::-webkit-scrollbar {
+	display: none;
+}
+.post_items .post_pro_box {
+	display: flex;
+  	justify-content: space-between;
+}
+.post_item {
+ 	width: 322px;
+}
+.post_item .post_pro_nic {
+	text-align: left;
+	font-weight: bold;	
+}
+.post_item .post_pro_nic a {
+	color: white;
+}
+.post_item .post_data_content {
+	text-align: left;
+	font-size: 14px;
+}
+.post_item .post_data_content a {
+	color: rgb(224,241,255);
+}
+.post_item .post_add_date {
+	text-align: left;
+	font-size: 12px;
+	color: #8E8E8E;
+	margin-top: 3px;
+}
+.modal_content .comment_box {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 15px;
+}
+.comment_item {
+	width: 322px;
+}
+.comment_item .comment_item_top {
+	display: flex;
+	justify-content: space-between;	
+}
+.comment_item .comment_item_top .comment_nic {
+	font-weight: bold;
+}
+.comment_item .comment_item_top .comment_nic a {	
+	color: white;
+}
+.comment_item .comment_item_top .comment_like {
+	cursor: pointer;
+}
+.comment_item .comment_content {
+	text-align: left;
+	font-size: 14px;
+}
+.comment_item .comment_content a {
+	color: rgb(224,241,255);
+}
+.comment_item .comment_item_bottom {
+	display: flex;
+	margin-top: 3px;
+}
+.comment_item .comment_item_bottom div {
+	margin-right: 10px;
+	font-size: 12px;
+	color: #8E8E8E;
+}
+.comment_item .comment_item_bottom .recomment {
+	cursor: pointer;
+}
+.comment_item .comment_item_bottom .remove {
+	cursor: pointer;
+}
+.comment_item .comment_count {
+	text-align: left;
+	color: #8E8E8E;
+	font-size: 12px;
+	cursor: pointer;
+	margin-top: 10px;
+	font-weight: 600;
+}
+.bottom_item {
+	padding: 15px;
+	border-bottom: 1px solid rgb(54,54,54);
+}
+.bottom_item .bottom_item_top {
+	display: flex;	
+}
+.bottom_item .bottom_item_top div {
+	margin-right: 10px;
+	cursor: pointer;
+}
+.bottom_item .bottom_like_count {
+	text-align: left;
+	font-size: 14px;
+	margin-top: 8px;
+}
+.bottom_item .bottom_date {
+	text-align: left;
+	font-size: 12px;
+	color: #8E8E8E;
+	margin-top: 3px;
+}
+.bottom_input {
+	display: flex;	
+	padding: 10px;
+	height: 70px;
+}
+.bottom_input textarea {
+	border: none;
+	background-color: #000;
+	resize: none;
+	width: 85%;
+	padding: 13px 0px;
+}
+.bottom_input textarea:focus {
+	outline: none;
+}
+.bottom_input .bottom_send {
+	color: #AAC9FF;
+	width: 15%;
+	cursor: pointer;
+	font-weight: bold;
+	align-self: center;
+}
+/* 모달 페이지 css end */
+
+/* 옵션 모달 창 css*/
+.option_modal {
+	position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 400;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.option_modal_bg {
+	position: absolute;
+    background-color: #000;
+    width: 100%;
+    height: 100vh;
+    z-index: 100;
+    margin: 0;
+    opacity: 0.3;
+}
+.modalBox > * {
+	height: 50px;
+	border-bottom: 1px solid #888;
+	margin: 0;
+	padding: 0;
+}
+.modalBox > div:nth-child(3) {
+	border: none;
+}
